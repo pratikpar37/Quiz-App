@@ -12,8 +12,8 @@ const Cards = () => {
 
     const handleClick=()=>{
         console.log("start button Clicked");
-        // navigate("/Quiz");
-        navigate("/TestQuiz")
+        navigate("/Quiz");
+        // navigate("/TestQuiz")
 
     }
 
