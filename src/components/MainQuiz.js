@@ -1,4 +1,4 @@
-
+import "./Options.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -9,8 +9,8 @@ import {
 import "react-circular-progressbar/dist/styles.css";
 
 import ReactStoreIndicator from 'react-score-indicator';
-import {Link,useNavigate} from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+// import ImageQuestion from "./ImageQuestion";
 
 
 
@@ -22,15 +22,17 @@ const MainQuiz = () => {
     const [check3, setCheck3] = useState(false);
     const [check4, setCheck4] = useState(false);
     const [check5, setCheck5] = useState(false);
+    const [check6, setCheck6] = useState(false);
+
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [showScore, setShowScore] = useState(false);
     const [score, setScore] = useState(0);
     const [inputValue, setinputValue] = useState(false);
     const [Label, setLabel] = useState("");
-    const [percentage, setPercentage] = useState(20);
-    let question, correctAnswer, data;
-    let incorrectAnswers;
+    const [percentage, setPercentage] = useState(10);
+    const [image, setImage] = useState("./Images/denmark.png");
+
 
     useEffect(() => {
 
@@ -38,22 +40,17 @@ const MainQuiz = () => {
         const getResult = async () => {
 
             try {
-                const response = await axios.get('https://opentdb.com/api.php?amount=5')
+                const response = await axios.get('https://opentdb.com/api.php?amount=9')
                 console.log(response.data.results);
-                data = response.data.results;
-                console.log(data[0]);
+                let data = response.data.results;
+
                 setQuizData(data);
-                console.log(quizData);
-                question = data[0].question;
-                correctAnswer = data[0].correct_answer;
-                incorrectAnswers = data[0].incorrect_answers;
-                console.log(data[0].question);
-                console.log(data[0].correct_answer);
-                console.log(data[0].incorrect_answers[0]);
                 setCheck1(false);
                 setCheck2(false);
                 setCheck3(false);
                 setCheck4(false);
+                setCheck5(false);
+                setCheck6(false);
                 setLabel("");
 
 
@@ -69,7 +66,7 @@ const MainQuiz = () => {
 
     }, [currentQuestion]);
 
- let navigate=useNavigate();
+    let navigate = useNavigate();
 
     const handlenext = (correctanswer) => {
 
@@ -78,7 +75,7 @@ const MainQuiz = () => {
         if (check1 && Label === correctanswer) {
             setScore(score + 1);
         }
-         if (check2 && Label === correctanswer) {
+        if (check2 && Label === correctanswer) {
             setScore(score + 1);
         }
         if (check3 && Label === correctanswer) {
@@ -87,11 +84,23 @@ const MainQuiz = () => {
         if (check4 && Label === correctanswer) {
             setScore(score + 1);
         }
-        
+
+        if (check5 && Label === correctanswer) {
+            setScore(score + 1);
+        }
+        if (check6 && Label === correctanswer) {
+            setScore(score + 1);
+        }
+
+
+
+
+
         const nextQuestion = currentQuestion + 1;
-        if (nextQuestion < quizData.length) {
+        if (nextQuestion <= quizData.length) {
             setCurrentQuestion(nextQuestion);
-            setPercentage(percentage + 20);
+            setPercentage(percentage + 10);
+            setImage("");
         } else {
             setShowScore(true);
         }
@@ -102,11 +111,14 @@ const MainQuiz = () => {
 
 
 
+
     const quiz = quizData.slice(0, 1).map((quizdata) => {
         return (
-            <div key={quizdata.correct_answer}>
+            <div>
 
-                <div >
+
+
+                <div key={quizdata.correct_answer}>
                     <div className="ui raised link purple card" style={{ marginLeft: "37%", marginTop: "80px", height: "65s0px", }}>
                         <div className="image" style={{ position: 'relative', }}>
                             <img src="./Images/bluewater.png" />
@@ -115,7 +127,7 @@ const MainQuiz = () => {
                             <div className="description" style={{ fontFamily: "arial", fontSize: "17px", color: "black" }}>
 
                                 <div style={{ height: "65px", width: "65px", marginLeft: "89px", marginTop: "-11px", postiton: "relative", zIndex: "5000", }}  >
-                                    <CircularProgressbar value={percentage} text={`${currentQuestion + 1}/${quizData.length}`} styles={buildStyles({ textColor: "black", pathColor: "green", textSize: "29px" })} />
+                                    <CircularProgressbar value={percentage} text={`${currentQuestion + 1}/${quizData.length + 1}`} styles={buildStyles({ textColor: "black", pathColor: "green", textSize: "29px" })} />
 
                                 </div>
                                 <div style={{ marginTop: "7px" }}>
@@ -132,35 +144,30 @@ const MainQuiz = () => {
 
 
 
-                                    <div class="ui  checkbox"
-                                        style={{ marginTop: "20px", marginLeft: "1px", padding: '16px', backgroundColor: "lightgray", height: "50px", width: "99%",borderRadius:"5px" ,border: `${(check1) ? "2px solid green" : ""}` }}>
-                                        <input type="checkbox" name="example" style={{ marginLeft: "14px", marginTop: "11px" }} onClick={() => { setCheck1(!check1); setinputValue(!check1); setLabel(quizdata.incorrect_answers[0]) }} />
+                                    <div className="ui  checkbox"
+                                        style={{ border: `${(check1) ? "2px solid green" : ""}` }}>
+                                        <input type="checkbox" name="example"
+                                            onClick={() => { setCheck1(!check1); setinputValue(!check1); setLabel(quizdata.incorrect_answers[0]) }} />
                                         <label for="checkbox">{quizdata.incorrect_answers[0]}</label>
                                     </div>
 
-                                    <div class="ui  checkbox" style={{ marginTop: "20px", marginLeft: "1px", padding: '16px', backgroundColor: "lightgray", height: "50px", width: "99%",borderRadius:"5px" , border: `${(check2) ? "2px solid green" : ""}` }}>
-                                        <input type="checkbox" name="example" style={{ marginLeft: "14px", marginTop: "11px" }} onClick={() => { setCheck2(!check2); setinputValue(!check2); setLabel(quizdata.incorrect_answers[1]) }} />
+                                    <div className="ui  checkbox" style={{ border: `${(check2) ? "2px solid green" : ""}` }}>
+                                        <input type="checkbox" name="example"
+                                            onClick={() => { setCheck2(!check2); setinputValue(!check2); setLabel(quizdata.incorrect_answers[1]) }} />
                                         <label for="checkbox">{quizdata.incorrect_answers[1]}</label>
                                     </div>
                                     <br />
-                                    <div class="ui  checkbox" style={{ marginTop: "20px", marginLeft: "1px", padding: '16px', backgroundColor: "lightgray", height: "50px", width: "99%",borderRadius:"5px" , border: `${(check3) ? "2px solid green" : ""}` }}>
-                                        <input type="checkbox" name="example" style={{ marginLeft: "14px", marginTop: "11px" }} onClick={() => { setCheck3(!check3); setinputValue(!check3); setLabel(quizdata.correct_answer) }} />
+                                    <div className="ui  checkbox" style={{ border: `${(check3) ? "2px solid green" : ""}` }}>
+                                        <input type="checkbox" name="example"
+                                            onClick={() => { setCheck3(!check3); setinputValue(!check3); setLabel(quizdata.correct_answer) }} />
                                         <label for="checkbox">{quizdata.correct_answer}</label>
                                     </div>
                                     <br />
-                                    <div class="ui  checkbox" style={{ marginTop: "20px", marginLeft: "1px", padding: '16px', backgroundColor: "lightgray", height: "50px", width: "99%",borderRadius:"5px" , border: `${(check4) ? "2px solid green" : ""}` }}>
-                                        <input type="checkbox" name="example" style={{ marginLeft: "14px", marginTop: "11px" }} onClick={() => { setCheck4(!check4); setinputValue(!check4); setLabel(quizdata.incorrect_answers[2]) }} />
+                                    <div className="ui  checkbox" style={{ border: `${(check4) ? "2px solid green" : ""}` }}>
+                                        <input type="checkbox" name="example"
+                                            onClick={() => { setCheck4(!check4); setinputValue(!check4); setLabel(quizdata.incorrect_answers[2]) }} />
                                         <label for="checkbox">{quizdata.incorrect_answers[2]}</label>
                                     </div>
-                                    {/* <br />
-                                    <div class="ui  checkbox" style={{ marginTop: "20px", marginLeft: "1px", padding: '16px', backgroundColor: "lightgray", height: "50px", width: "99%", border: `${(check5) ? "2px solid green" : ""}` }}>
-                                        <input type="checkbox" name="example" style={{ marginLeft: "9px", marginTop: "11px" }} onClick={() => { setCheck5(!check5) }} />
-                                        <label for="checkbox">{quizdata.incorrect_answers}</label>
-                                    </div> */}
-
-
-
-
 
 
 
@@ -214,7 +221,7 @@ const MainQuiz = () => {
                                 <div style={{ marginTop: "10px" }}  >
                                     <ReactStoreIndicator
                                         value={score}
-                                        maxValue={quizData.length}
+                                        maxValue={quizData.length + 1}
                                         text="30%"
                                         style={buildStyles({ textSize: "29px" })}
                                         textStyle={buildStyles({ marginTop: "-10px" })}
@@ -223,47 +230,26 @@ const MainQuiz = () => {
                                 </div>
 
 
-
-
-
                                 <div>
 
+                                    <div className="item" style={{ backgroundColor: "lightgreen", height: "50px", width: "99%", padding: "16px", marginTop: "20px", borderRadius: "4px" }}>
+                                        <div class="ui green empty circular label"
 
-
-                                    <div className="item"  style={{backgroundColor: "lightgreen", height: "50px", width: "99%",padding:"16px",marginTop:"20px",borderRadius:"4px"}}>
-                                    <div class="ui green empty circular label"
-                                   
-                                       >
-                                        
-                                        {/* <input type="checkbox" name="example" style={{ marginLeft: "14px", marginTop: "11px" }} />
-                                        <label for="checkbox" ><b style={{ fontSize: "15px" }}>3</b>  Correct</label> */}
-                                       
-                                    </div>
-                                    <label for="checkbox" ><b style={{ fontSize: "17px",marginLeft:"9px" }}>{score}</b> Correct</label>
-
-                                    </div>
-                                    <div className="item"  style={{backgroundColor: "lightpink", height: "50px", width: "99%",padding:"16px",marginTop:"20px",borderRadius:'4px'}}>
-                                    <div class="ui red empty circular label"
-                                   
                                         >
-                                        {/* <input type="checkbox" name="example" style={{ marginLeft: "14px", marginTop: "11px" }} />
-                                        <label for="checkbox" ><b style={{ fontSize: "15px" }}>2</b>     Incorrect</label> */}
-                                        
-                                    </div>
-                                    <label for="checkbox" ><b style={{ fontSize: "17px",marginLeft:"9px" }}>{quizData.length-score}</b> Incorrect</label>
 
                                         </div>
-                                   
+                                        <label for="checkbox" ><b style={{ fontSize: "17px", marginLeft: "9px" }}>{score}</b> Correct</label>
 
-                                    
+                                    </div>
+                                    <div className="item" style={{ backgroundColor: "lightpink", height: "50px", width: "99%", padding: "16px", marginTop: "20px", borderRadius: '4px' }}>
+                                        <div class="ui red empty circular label"
 
+                                        >
 
+                                        </div>
+                                        <label for="checkbox" ><b style={{ fontSize: "17px", marginLeft: "9px" }}>{(quizData.length + 1) - score}</b> Incorrect</label>
 
-
-
-
-
-
+                                    </div>
 
                                 </div>
 
@@ -271,9 +257,7 @@ const MainQuiz = () => {
                             <div style={{ marginTop: "54px", }} >
                                 <button className="ui  red button"
                                     style={{ marginLeft: "3px", width: "96%", height: "40px", borderRadius: "19px", padding: "5px" }}
-                                    onClick={() => {navigate("/")}}
-
-
+                                    onClick={() => { navigate("/") }}
                                 >
 
                                     Start Again
@@ -285,17 +269,82 @@ const MainQuiz = () => {
                         </div>
 
                     </div>
-                    <br/>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
+                    <br />
                 </div>
 
             ) : (
 
-                <div>
+                (image) ? (
+                    <div>
+                        <div className="ui raised link purple card" style={{ marginLeft: "37%", marginTop: "80px", height: "650px", }}>
+                            <div className="image" style={{ position: 'relative', }}>
+                                <img src="./Images/bluewater.png" />
+                            </div>
+                            <div className="content" style={{ borderRadius: "18px" }}>
+                                <div className="description" style={{ fontFamily: "arial", fontSize: "17px", color: "black" }}>
 
-                    {quiz}
-                </div>
+                                    <div style={{ height: "65px", width: "65px", marginLeft: "89px", marginTop: "-11px", postiton: "relative", zIndex: "5000", }}  >
+                                        <CircularProgressbar value={percentage} text={`${currentQuestion + 1}/${quizData.length + 1}`} styles={buildStyles({ textColor: "black", pathColor: "green", textSize: "29px" })} />
+
+                                    </div>
+                                    <div style={{ marginTop: "7px", marginLeft: '30px' }}>
+                                        <b >This is the flag of which Scandinavian country?
+
+                                        </b>
+                                    </div>
+                                    <div style={{ marginLeft: '55px', marginTop: "30px" }}>
+                                        <img src={image} style={{ height: "140px", width: "140px" }} />
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <div className="ui  checkbox"
+                                            style={{ border: `${(check5) ? "2px solid green" : ""}` }}>
+                                            <input type="checkbox" name="example"
+                                                onClick={() => { setCheck5(!check5); setinputValue(!check5); setLabel("Sweden") }} />
+                                            <label for="checkbox">Sweden</label>
+                                        </div>
+
+                                        <div className="ui  checkbox" style={{ border: `${(check6) ? "2px solid green" : ""}` }}>
+                                            <input type="checkbox" name="example"
+                                                onClick={() => { setCheck6(!check6); setinputValue(!check6); setLabel("Denmark") }} />
+                                            <label for="checkbox">Denmark</label>
+                                        </div>
+                                        <br />
+
+                                    </div>
+
+                                </div>
+                                <div style={{ marginTop: "7px", }} >
+                                    <button className="ui right labeled icon red button"
+                                        style={{ marginLeft: "3px", width: "96%", height: "40px", borderRadius: "19px", padding: "5px" }}
+                                        onClick={() => { handlenext("Denmark") }}
+                                        disabled={inputValue === false}
+                                    >
+                                        <i className="arrow right icon"></i>
+                                        Next</button>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                ) : (
+                    <div>
+
+                        {quiz}
+                    </div>
+
+                )
+
 
             )
 

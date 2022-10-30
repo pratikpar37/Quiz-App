@@ -1,0 +1,18 @@
+
+.ui{
+    margin-top: 20px;
+    margin-left: 1px;
+    padding: 16px;
+    background-color: lightgray;
+    height: 50px;
+    width: 99%;
+    border-radius: 5px;
+   
+    
+    
+}
+
+input{
+    margin-left: 14px;
+    margin-top: 11px;
+}

@@ -3,7 +3,7 @@
 import React from "react";
 import Cards from "./Cards";
 import MainQuiz from "./MainQuiz";
-import TestMainQuiz from "./TestMainQuiz";
+// import TestMainQuiz from "./TestMainQuiz";
 
 import {
     BrowserRouter as Router,
@@ -27,7 +27,7 @@ const App = () => {
                 <Routes>
                     <Route path="/" index element={<Cards />} />
                     <Route path="/Quiz" element={<MainQuiz />} />
-                    <Route path="/TestQuiz" element={<TestMainQuiz />} />
+                    {/* <Route path="/TestQuiz" element={<TestMainQuiz />} /> */}
                 </Routes>
             </Router>
 
