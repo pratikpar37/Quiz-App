@@ -119,7 +119,7 @@ const MainQuiz = () => {
 
 
                 <div key={quizdata.correct_answer}>
-                    <div className="ui raised link purple card" style={{ marginLeft: "37%", marginTop: "80px", height: "65s0px", }}>
+                    <div className="ui raised link purple card" style={{ marginLeft: "37%", marginTop: "80px", height: "650px", }}>
                         <div className="image" style={{ position: 'relative', }}>
                             <img src="./Images/bluewater.png" />
                         </div>
