@@ -5,6 +5,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Info About the Application
 A Quiz application which allows you to answer the random questions on every new start with the help of REST Api's
 
+#### View Demo 
+https://gleaming-crumble-92fb2d.netlify.app/
+
 ## Available Scripts
 
 In the project directory, you can run:
