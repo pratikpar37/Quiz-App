@@ -3,7 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Info About the Application
-A Quiz application which allows you answer the random questions on every new start with the help of REST Api's
+A Quiz application which allows you to answer the random questions on every new start with the help of REST Api's
 
 ## Available Scripts
 
